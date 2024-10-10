@@ -82,7 +82,7 @@ t0_0801 = df_0801['timestamp'][0]
 df_0730['t'] = (df_0730['timestamp'] - t0_0730).dt.total_seconds()
 df_0801['t'] = (df_0801['timestamp'] - t0_0801).dt.total_seconds()
 
-df = pd.merge(df_0730[['t','heart_rate','cadence']], df_0801[['t','heart_rate','cadence']], on='t', how='outer')
+df = pd.merge(df_0730[['t','heart_rate','cadence','altitude']], df_0801[['t','heart_rate','cadence','altitude']], on='t', how='outer')
 df = df.set_index('t')
 
 df['heart_rate_x'] = df['heart_rate_x'].interpolate(method='linear', limit_direction='both')
@@ -91,9 +91,13 @@ df['heart_rate_y'] = df['heart_rate_y'].interpolate(method='linear', limit_direc
 df['cadence_x'] = df['cadence_x'].interpolate(method='linear', limit_direction='both')
 df['cadence_y'] = df['cadence_y'].interpolate(method='linear', limit_direction='both')
 
+df['altitude_x'] = df['altitude_x'].interpolate(method='linear', limit_direction='both')
+df['altitude_y'] = df['altitude_y'].interpolate(method='linear', limit_direction='both')
+
 st.write("""
 # Teste e mais teste
 """)
 
 st.line_chart(df[['heart_rate_x','heart_rate_y']])
 st.line_chart(df[['cadence_x','cadence_y']])
+st.line_chart(df[['altitude_x','altitude_y']])
